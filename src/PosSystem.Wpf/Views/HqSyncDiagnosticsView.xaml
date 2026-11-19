@@ -1,0 +1,53 @@
+<UserControl x:Class="PosSystem.Wpf.Views.HqSyncDiagnosticsView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,10">
+            <Button Content="본사 API 상태 확인" Command="{Binding CheckHqHealthCommand}"
+                    Background="#334155" Foreground="White" BorderThickness="0" Margin="0,0,8,0" />
+            <Button Content="미전송 Outbox 동기화 (Push)" Command="{Binding SyncOutboxCommand}"
+                    Background="#0284C7" Foreground="White" BorderThickness="0" Margin="0,0,8,0" />
+            <Button Content="본사 상품 마스터 수신 (Pull)" Command="{Binding PullProductsFromHqCommand}"
+                    Background="#16A34A" Foreground="White" BorderThickness="0" />
+        </StackPanel>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="1.2*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0">
+                <TextBlock DockPanel.Dock="Top" Text="오프라인 우선 Outbox 대기열" FontWeight="Bold" Margin="0,0,0,6" />
+                <DataGrid ItemsSource="{Binding PendingOutbox}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="45" />
+                        <DataGridTextColumn Header="이벤트" Binding="{Binding EventType}" Width="125" />
+                        <DataGridTextColumn Header="집계ID" Binding="{Binding AggregateId}" Width="140" />
+                        <DataGridTextColumn Header="상태" Binding="{Binding Status}" Width="75" />
+                        <DataGridTextColumn Header="재시도" Binding="{Binding RetryCount}" Width="55" />
+                        <DataGridTextColumn Header="오류" Binding="{Binding LastError}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+
+            <DockPanel Grid.Column="2">
+                <TextBlock DockPanel.Dock="Top" Text="현장 장애 진단 로그" FontWeight="Bold" Margin="0,0,0,6" />
+                <DataGrid ItemsSource="{Binding DiagnosticLogs}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="시간" Binding="{Binding Timestamp, StringFormat={}{0:HH:mm:ss}}" Width="75" />
+                        <DataGridTextColumn Header="분류" Binding="{Binding Category}" Width="75" />
+                        <DataGridTextColumn Header="레벨" Binding="{Binding Level}" Width="70" />
+                        <DataGridTextColumn Header="메시지" Binding="{Binding Message}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </DockPanel>
+        </Grid>
+    </Grid>
+</UserControl>

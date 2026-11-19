@@ -1,0 +1,71 @@
+<Window x:Class="PosSystem.Wpf.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:views="clr-namespace:PosSystem.Wpf.Views"
+        Title="POS System (.NET 8 / WPF / MSSQL / VAN / ESC-POS)"
+        Height="860" Width="1380"
+        WindowStartupLocation="CenterScreen"
+        Background="#F1F5F9"
+        FontFamily="Malgun Gothic, Segoe UI">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="56" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="34" />
+        </Grid.RowDefinitions>
+
+        <!-- 상단 헤더 -->
+        <Border Grid.Row="0" Background="#0F172A" Padding="18,0">
+            <DockPanel LastChildFill="False">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Left">
+                    <TextBlock Text="POS SYSTEM" Foreground="#38BDF8" FontSize="19" FontWeight="Bold" />
+                    <TextBlock Text="  |  C# .NET 8 · WPF MVVM · MSSQL (EF Core + Dapper) · VAN · ESC/POS · HQ REST API"
+                               Foreground="#94A3B8" FontSize="12" VerticalAlignment="Center" />
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" DockPanel.Dock="Right">
+                    <Border Background="#1E293B" CornerRadius="4" Padding="10,4" Margin="0,0,8,0">
+                        <TextBlock Text="{Binding DbStatusText}" Foreground="#4ADE80" FontSize="12" FontWeight="SemiBold" />
+                    </Border>
+                    <Border Background="#1E293B" CornerRadius="4" Padding="10,4" Margin="0,0,8,0">
+                        <TextBlock Text="{Binding HqStatusText}" Foreground="#FBBF24" FontSize="12" FontWeight="SemiBold" />
+                    </Border>
+                    <Button Content="새로고침" Command="{Binding RefreshAllDataCommand}"
+                            Background="#334155" Foreground="White" BorderThickness="0" Padding="10,5" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <!-- 기능별 분리된 5개 탭 -->
+        <TabControl Grid.Row="1" Margin="10" Background="White" BorderBrush="#CBD5E1">
+            <TabItem Header="  POS 판매  " FontSize="14" FontWeight="SemiBold">
+                <views:PosSaleView DataContext="{Binding PosSale}" />
+            </TabItem>
+
+            <TabItem Header="  거래내역 / 취소  " FontSize="14" FontWeight="SemiBold">
+                <views:OrderHistoryView DataContext="{Binding OrderHistory}" />
+            </TabItem>
+
+            <TabItem Header="  재고 / 일일정산 (Dapper)  " FontSize="14" FontWeight="SemiBold">
+                <views:InventorySettlementView DataContext="{Binding InventorySettlement}" />
+            </TabItem>
+
+            <TabItem Header="  주변기기 / VAN 전문 모니터  " FontSize="14" FontWeight="SemiBold">
+                <views:PeripheralMonitorView DataContext="{Binding PeripheralMonitor}" />
+            </TabItem>
+
+            <TabItem Header="  본사 동기화 / 장애 진단  " FontSize="14" FontWeight="SemiBold">
+                <views:HqSyncDiagnosticsView DataContext="{Binding HqSyncDiagnostics}" />
+            </TabItem>
+        </TabControl>
+
+        <!-- 하단 상태바 -->
+        <Border Grid.Row="2" Background="#E2E8F0" BorderBrush="#CBD5E1" BorderThickness="0,1,0,0" Padding="14,0">
+            <DockPanel>
+                <TextBlock Text="{Binding StatusMessage}" VerticalAlignment="Center" FontWeight="SemiBold" Foreground="#0F172A" />
+                <TextBlock Text="Visual Studio 2022 Solution | .NET 8.0" DockPanel.Dock="Right"
+                           VerticalAlignment="Center" Foreground="#64748B" FontSize="11" />
+            </DockPanel>
+        </Border>
+    </Grid>
+</Window>

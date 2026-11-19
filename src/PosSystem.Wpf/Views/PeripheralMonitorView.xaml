@@ -1,0 +1,69 @@
+<UserControl x:Class="PosSystem.Wpf.Views.PeripheralMonitorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <UniformGrid Grid.Row="0" Columns="3" Margin="0,0,0,10">
+            <Border Background="#022C22" BorderBrush="#10B981" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="고객용 VFD 디스플레이 (2x20)" Foreground="#6EE7B7" FontSize="11" Margin="0,0,0,4" />
+                    <TextBlock Text="{Binding VfdLine1}" Foreground="#34D399" FontFamily="Consolas" FontSize="15" FontWeight="Bold" />
+                    <TextBlock Text="{Binding VfdLine2}" Foreground="#34D399" FontFamily="Consolas" FontSize="15" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="6" Padding="10" Margin="0,0,8,0">
+                <StackPanel>
+                    <TextBlock Text="캐시드로어 (ESC/POS Kick Pulse)" FontWeight="Bold" Margin="0,0,0,6" />
+                    <TextBlock Text="{Binding LastDrawerInfo}" Foreground="#475569" FontSize="12" Margin="0,0,0,6" />
+                    <Button Content="돈통 강제 개방 (ESC p)" Command="{Binding OpenCashDrawerCommand}"
+                            Background="#334155" Foreground="White" BorderThickness="0" HorizontalAlignment="Left" />
+                </StackPanel>
+            </Border>
+
+            <Border Background="#F8FAFC" BorderBrush="#CBD5E1" BorderThickness="1" CornerRadius="6" Padding="10">
+                <StackPanel>
+                    <TextBlock Text="VAN 결제 거절 테스트 안내" FontWeight="Bold" Margin="0,0,0,4" />
+                    <TextBlock Text="카드 결제 시 금액이 99,999원인 경우 의도적으로 VAN 거절 응답(E001)을 반환하여 장애/예외 처리를 검증합니다."
+                               TextWrapping="Wrap" FontSize="12" Foreground="#475569" />
+                </StackPanel>
+            </Border>
+        </UniformGrid>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.2*" />
+                <ColumnDefinition Width="10" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="0">
+                <TextBlock DockPanel.Dock="Top" Text="실시간 VAN 전문 송수신 로그 (STX / ETX / LRC)" FontWeight="Bold" Margin="0,0,0,6" />
+                <ListBox ItemsSource="{Binding VanMonitorLogs}" FontFamily="Consolas" FontSize="12"
+                         Background="#0F172A" Foreground="#E2E8F0" />
+            </DockPanel>
+
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1.3*" />
+                    <RowDefinition Height="8" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+                <DockPanel Grid.Row="0">
+                    <TextBlock DockPanel.Dock="Top" Text="영수증 출력 미리보기" FontWeight="Bold" Margin="0,0,0,4" />
+                    <TextBox Text="{Binding ReceiptPreviewText}" IsReadOnly="True" FontFamily="Consolas" FontSize="12"
+                             VerticalScrollBarVisibility="Auto" Background="#FFFBEB" Padding="8" />
+                </DockPanel>
+                <DockPanel Grid.Row="2">
+                    <TextBlock DockPanel.Dock="Top" Text="ESC/POS 바이너리 Hex 덤프" FontWeight="Bold" Margin="0,0,0,4" />
+                    <TextBox Text="{Binding EscPosHexText}" IsReadOnly="True" FontFamily="Consolas" FontSize="11"
+                             TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" Background="#F8FAFC" Padding="8" />
+                </DockPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

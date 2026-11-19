@@ -1,0 +1,6 @@
+@PosPortfolio.HqApi_HostAddress = http://localhost:5084
+
+GET {{PosPortfolio.HqApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
