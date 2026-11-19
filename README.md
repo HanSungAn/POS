@@ -1,20 +1,24 @@
 # POS SYSTEM Solution (C# / .NET 8 / WPF / MSSQL / ASP.NET Core)
 
-유통·외식 POS 및 결제 시스템 개발 직무(C#/.NET, WPF, MSSQL, VAN/PG 결제, 주변기기, 본사-가맹점 API 연동)에 맞춰 설계·구현한 **Visual Studio 2022 포트폴리오 솔루션**입니다.
+유통·외식 매장의 판매, VAN/PG 결제, 주변기기 제어, 정산 및 본사-가맹점 데이터 연동을 통합 구현한 **Visual Studio 2022 POS 시스템 솔루션**입니다.
+
+## 화면 미리보기
+
+![POS System Demo](docs/images/pos-demo.gif)
 
 ---
 
-## 1. 채용공고 요구사항 매핑
+## 1. 주요 기술 스택 및 구현 기능
 
-| 구분 | 채용공고 요구사항 / 우대사항 | 본 프로젝트 구현 내용 |
+| 구분 | 핵심 기술 / 기능 | 구현 내용 |
 | :--- | :--- | :--- |
-| **언어 / 프레임워크** | C# 및 .NET (.NET 6 이상), WPF MVVM | `.NET 8.0` 기반, `CommunityToolkit.Mvvm` + `Microsoft.Extensions.DependencyInjection` |
-| **데이터베이스 / ORM** | MSSQL 활용, Entity Framework / Dapper | **MS SQL Server** 기반 `EF Core 8`(트랜잭션/엔티티) + **Dapper**(일일 매출/정산 고성능 집계 SQL) 병행 |
-| **결제 연동 / VAN 전문** | VAN/PG, 카드단말기, 간편결제, 현금영수증, 전문 이해 | `VanPacketCodec` (`STX/LEN/FS/ETX/LRC` 체크섬 프레임 인코딩·디코딩) + `MockVanTerminalClient` (99,999원 거절 시뮬레이션 포함) |
+| **언어 / 프레임워크** | C# / .NET 8, WPF MVVM | `.NET 8.0` 기반, `CommunityToolkit.Mvvm` + `Microsoft.Extensions.DependencyInjection` |
+| **데이터베이스 / ORM** | MS SQL Server, EF Core / Dapper | **MS SQL Server** 기반 `EF Core 8`(트랜잭션/엔티티) + **Dapper**(일일 매출/정산 고성능 집계 SQL) 병행 |
+| **결제 연동 / VAN 전문** | VAN/PG, 카드단말기, 간편결제, 현금영수증 | `VanPacketCodec` (`STX/LEN/FS/ETX/LRC` 체크섬 프레임 인코딩·디코딩) + `MockVanTerminalClient` (99,999원 거절 시뮬레이션 포함) |
 | **주변기기 연동** | 영수증 프린터, 바코드 스캐너, 캐시드로어, 고객용 디스플레이 | `EscPosReceiptPrinter` (`ESC @`, `GS V` 커맨드 & COM 포트/시뮬레이터), `SerialBarcodeScanner` (`System.IO.Ports`), `SimulatedCashDrawer`, `SimulatedCustomerDisplay` (2x20 VFD) |
 | **매장 업무 로직** | 주문/매출/재고/정산 | 장바구니, 한국 부가세(1/11) 자동 산출, 결제/취소(원거래 취소 + 재고 복원), 일일 정산 마감 및 시재 차액 계산 |
 | **본사-가맹점 연동** | ASP.NET Core / REST API, 데이터 동기화 | **Transactional Outbox 패턴** + `PosSystem.HqApi` (멱등성 보장 이벤트 수신 및 상품 마스터 배포) |
-| **장애 대응 / 문서화** | 현장 장애 대응, 협업 및 문서화 | `DiagnosticLogs` 테이블/실시간 모니터, [VAN 전문 정의서](docs/VAN_PROTOCOL_SPEC.md), [현장 장애 대응 매뉴얼](docs/TROUBLESHOOTING_GUIDE.md) |
+| **장애 대응 / 문서화** | 현장 장애 로깅 및 운영 가이드 | `DiagnosticLogs` 테이블/실시간 모니터, [VAN 전문 정의서](docs/VAN_PROTOCOL_SPEC.md), [현장 장애 대응 매뉴얼](docs/TROUBLESHOOTING_GUIDE.md) |
 
 ---
 
